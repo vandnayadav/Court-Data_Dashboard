@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Case Result</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* 🔁 Background image added here */
+            background: url('static/img22.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            width: 90%;
+            max-width: 450px;
+            border-radius: 16px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: none;
+        }
+
+        .container::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        .container {
+            scrollbar-width: none;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 8px;
+            text-align: center;
+        }
+
+        p {
+            font-size: 15px;
+            color: #2f2f2f;
+            margin: 6px 0;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 17px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .btn {
+            display: block;
+            margin: 10px auto;
+            padding: 9px 16px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #1e7e34;
+        }
+
+        .link-back {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+            font-size: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .link-back:hover {
+            color: #004a99;
+        }
+
+        hr {
+            margin: 16px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📂 Case Details</h2>
+
+        {% if error %}
+            <p class="error">❌ {{ error }}</p>
+            <a href="/" class="link-back">🔙 Back to Home</a>
+        {% else %}
+            <p><strong>Case Type:</strong> {{ case_type }}</p>
+            <p><strong>Case Number:</strong> {{ case_number }}</p>
+            <p><strong>Case Year:</strong> {{ case_year }}</p>
+
+            <hr>
+
+            <p><strong>Parties:</strong> {{ parties }}</p>
+            <p><strong>Filing Date:</strong> {{ filing_date }}</p>
+            <p><strong>Next Hearing Date:</strong> {{ next_hearing }}</p>
+
+            <hr>
+
+            <p><strong>📄 Latest Orders / Judgments:</strong></p>
+            {% if pdf_links and pdf_links|length > 0 %}
+                {% for link in pdf_links %}
+                    <a href="{{ link }}" target="_blank" download class="btn">
+                        📥 Download PDF {{ loop.index }}
+                    </a>
+                {% endfor %}
+            {% else %}
+                <p>⚠️ No PDF orders available for this case.</p>
+            {% endif %}
+
+            <a href="/" class="link-back">🔍 Search Another Case</a>
+        {% endif %}
+    </div>
+</body>
+</html>
